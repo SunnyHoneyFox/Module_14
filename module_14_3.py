@@ -51,24 +51,24 @@ async def get_buying_list(message: types.Message):
 
     for product in products:
         await message.answer(
-            f'Название: {product["name"]} | Описание: {product["description"]} | Цена: {product["price"]}₽'
+            f'Название: {product['name']} | Описание: {product['description']} | Цена: {product['price']}₽'
         )
-        await message.answer_photo(photo=open(product["image"], 'rb'))
+        await message.answer_photo(photo=open(product['image'], 'rb'))
 
     inline_kb = types.InlineKeyboardMarkup(row_width=len(products))
     buttons = []
     for product in products:
-        button = types.InlineKeyboardButton(text=product["name"], callback_data="product_buying")
+        button = types.InlineKeyboardButton(text=product['name'], callback_data='product_buying')
         buttons.append(button)
     inline_kb.add(*buttons)
 
-    await message.answer("Выберите продукт для покупки:", reply_markup=inline_kb)
+    await message.answer('Выберите продукт для покупки:', reply_markup=inline_kb)
 
 
-@dp.callback_query_handler(lambda call: call.data == "product_buying")
+@dp.callback_query_handler(lambda call: call.data == 'product_buying')
 async def send_confirm_message(call: types.CallbackQuery):
     await call.answer()
-    await call.message.answer("Вы успешно приобрели продукт!")
+    await call.message.answer('Вы успешно приобрели продукт!')
 
 
 @dp.message_handler(state=UserState.age)
